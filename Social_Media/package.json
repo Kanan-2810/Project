@@ -1,0 +1,29 @@
+{
+  "name": "social_media",
+  "version": "1.0.0",
+  "description": "API of social media",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kanan-2810/Projects.git"
+  },
+  "author": "Kanan Dave",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kanan-2810/Projects/issues"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3",
+    "nodemailer": "^6.9.8",
+    "punycode": "^2.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
