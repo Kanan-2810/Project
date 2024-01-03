@@ -55,7 +55,7 @@ const getbill = (req, res) => {
             pass: PASSWORD
         }
     }
-
+  
     let transporter = nodemailer.createTransport(config);
 
     let MailGenerator = new Mailgen({

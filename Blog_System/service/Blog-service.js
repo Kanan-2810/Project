@@ -1,7 +1,9 @@
 const User = require('../models/user');
 const Blog = require('../models/Blog');
 const mongoose = require('mongoose')
-const getAllBlogs = async (req, res, next) => {
+
+const getAllBlogs = async (req, res, next) => 
+{
     let blogs;
     try {
         blogs = await Blog.find();
@@ -12,9 +14,11 @@ const getAllBlogs = async (req, res, next) => {
     if (!blogs) {
         res.status(404).json({ message: "Blogs are not found" })
     }
-    return res.status(200).json(blogs)
+    return blogs;
 }
-const createBlog = async (req, res, next) => {
+
+const createBlog = async (req, res, next) => 
+{
     const { title, description, image, user } = req.body
     let existingUser;
     try {
@@ -40,9 +44,11 @@ const createBlog = async (req, res, next) => {
         console.log(error);
         res.status(500).json({ messgae: error })
     }
-    return res.status(200).json({ blog })
+    return blog;
 }
-const updateBlog = async (req, res, next) => {
+
+const updateBlog = async (req, res, next) => 
+{
     const { title, description } = req.body
     const Blog_id = req.params.id
     let blog
@@ -57,26 +63,11 @@ const updateBlog = async (req, res, next) => {
     if (!blog) {
         return res.status(404).json({ message: "blog is not present which you are looking for" })
     }
-    return res.status(200).json({ blog })
-
+    return blog;
 }
 
-const getById = async (req, res, next) => {
-    const id = req.params.id
-    let blog;
-    try {
-        blog = await Blog.findById(id)
-
-    } catch (error) {
-        return console.log(error);
-    }
-    if (!blog) {
-        res.status(404).json({ message: "Blog is not present " })
-    }
-    res.status(200).json({ blog })
-
-}
-const deleteBlog = async (req, res, next) => {
+const deleteBlog = async (req, res, next) => 
+{
     const id = req.params.id;
     let blog;
 
@@ -96,10 +87,27 @@ const deleteBlog = async (req, res, next) => {
         console.log(error);
         return res.status(500).json({ message: "Internal Server Error" });
     }
+    return blog;
+}
 
-    return res.status(200).json({ message: "The Blog is removed successfully" });
-};
-const getByUserId = async (req, res, next) => {
+const getById = async (req, res, next) => 
+{
+    const id = req.params.id
+    let blog;
+    try {
+        blog = await Blog.findById(id)
+
+    } catch (error) {
+        return console.log(error);
+    }
+    if (!blog) {
+        res.status(404).json({ message: "Blog is not present " })
+    }
+    return blog;
+}
+
+const getByUserId = async (req, res, next) => 
+{
     const userId = req.params.id
     let userBlog;
     try {
@@ -110,8 +118,8 @@ const getByUserId = async (req, res, next) => {
     if (!userBlog) {
         return res.status(404).json({ message: "the blog is not found" })
     }
-    return res.status(200).json({ blogs: userBlog })
-};
+    return userBlog;
+}
 
 module.exports = {
     getAllBlogs,
@@ -121,4 +129,3 @@ module.exports = {
     deleteBlog,
     getByUserId
 }
-

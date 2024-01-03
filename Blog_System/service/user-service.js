@@ -1,9 +1,9 @@
-const  mongoose  = require('mongoose');
 const User = require('../models/user');
-
+const  mongoose  = require('mongoose');
 const bcrypt = require('bcryptjs')
 
-const getAllUser = async (req, res, next) => {
+const getAllUser = async (req,res,next)=>
+{
     let users;
     try {
         users = await User.find();
@@ -14,9 +14,11 @@ const getAllUser = async (req, res, next) => {
     if (!users) {
         return res.status(404).json({ message: "user not found" })
     }
-    return res.status(200).json({ users })
+    return users;
 }
-const signupUser = async (req, res, next) => {
+
+const signupUser = async (req,res,next) =>
+{
     const { name, email, password } = req.body;
     let existingUser;
     try {
@@ -42,10 +44,11 @@ const signupUser = async (req, res, next) => {
     } catch (error) {
         console.log(error);
     }
-    return res.status(200).json({ user })
+    return user
 }
 
-const loginUser = async (req, res, next) => {
+const loginUser = async (req, res, next) => 
+{
     const { email, password } = req.body
     let existingUser;
     try {
@@ -62,10 +65,7 @@ const loginUser = async (req, res, next) => {
     if (!iscorrectPassword) {
         return res.status(404).json({ message: "Incorrect Password" })
     }
-
-  
-    return res.status(200).json({existingUser})
-
+    return existingUser;
 }
 
 module.exports = {
