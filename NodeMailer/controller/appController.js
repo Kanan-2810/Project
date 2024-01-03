@@ -45,7 +45,7 @@ const signup = async (req, res) => {
 
 /** send mail from real gmail account */
 const getbill = (req, res) => {
-
+    console.log(req.body)
     const { userEmail } = req.body;
 
     let config = {
