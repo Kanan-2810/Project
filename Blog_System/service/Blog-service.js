@@ -2,8 +2,7 @@ const User = require('../models/user');
 const Blog = require('../models/Blog');
 const mongoose = require('mongoose')
 
-const getAllBlogs = async (req, res, next) => 
-{
+const getAllBlogs = async (req, res, next) => {
     let blogs;
     try {
         blogs = await Blog.find();
@@ -11,14 +10,16 @@ const getAllBlogs = async (req, res, next) =>
     } catch (error) {
         return console.log(error);
     }
-    if (!blogs) {
-        res.status(404).json({ message: "Blogs are not found" })
+    if (!blogs || blogs.length === 0) {
+        return { status: false, message: "Blogs are not found" }
     }
-    return blogs;
+    else {
+        return { status: true, blogs };
+
+    }
 }
 
-const createBlog = async (req, res, next) => 
-{
+const createBlog = async (req, res, next) => {
     const { title, description, image, user } = req.body
     let existingUser;
     try {
@@ -27,7 +28,7 @@ const createBlog = async (req, res, next) =>
         return console.log(error);
     }
     if (!existingUser) {
-        return res.status(404).json({ messgae: "Unable to find User using this Id " })
+        return {status:false ,messgae: "Unable to find User using this Id "}
     }
     const blog = new Blog({
         title, description, image, user,
@@ -42,13 +43,12 @@ const createBlog = async (req, res, next) =>
         session.commitTransaction()
     } catch (error) {
         console.log(error);
-        res.status(500).json({ messgae: error })
+        return {status: false , messgae: error }
     }
-    return blog;
+    return {status:true ,blog};
 }
 
-const updateBlog = async (req, res, next) => 
-{
+const updateBlog = async (req, res, next) => {
     const { title, description } = req.body
     const Blog_id = req.params.id
     let blog
@@ -61,13 +61,12 @@ const updateBlog = async (req, res, next) =>
         return console.log(error);
     }
     if (!blog) {
-        return res.status(404).json({ message: "blog is not present which you are looking for" })
+        return { status : false ,message: "blog is not present which you are looking for..." }
     }
-    return blog;
+    return {status:true ,blog};
 }
 
-const deleteBlog = async (req, res, next) => 
-{
+const deleteBlog = async (req, res, next) => {
     const id = req.params.id;
     let blog;
 
@@ -76,7 +75,7 @@ const deleteBlog = async (req, res, next) =>
         blog = await Blog.findById(id).populate("user");
 
         if (!blog) {
-            return res.status(404).json({ message: "Blog is not present in the DB" });
+            return { status : false ,message: "Blog is not present in the DB" }
         }
         const user = blog.user;
         user.blogs.pull(blog);
@@ -85,40 +84,37 @@ const deleteBlog = async (req, res, next) =>
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: "Internal Server Error" });
+        return {status : false , message: "Internal Server Error" };
     }
-    return blog;
+    return {status:true ,blog};
 }
-
-const getById = async (req, res, next) => 
-{
+ 
+const getById = async (req, res, next) => {
     const id = req.params.id
     let blog;
     try {
         blog = await Blog.findById(id)
 
     } catch (error) {
-        return console.log(error);
+         console.log(error);
     }
     if (!blog) {
-        res.status(404).json({ message: "Blog is not present " })
+       return { status : false , message: "Blog is not present " }
     }
-    return blog;
+    return {status:true ,blog};
 }
-
-const getByUserId = async (req, res, next) => 
-{
+const getByUserId = async (req, res, next) => {
     const userId = req.params.id
     let userBlog;
     try {
         userBlog = await User.findById(userId).populate("blogs")
     } catch (error) {
-        return console.log(error);
+         console.log(error);
     }
     if (!userBlog) {
-        return res.status(404).json({ message: "the blog is not found" })
+        return {status:false ,  message: "the blog is not found" }
     }
-    return userBlog;
+    return {status:true ,userBlog};
 }
 
 module.exports = {
